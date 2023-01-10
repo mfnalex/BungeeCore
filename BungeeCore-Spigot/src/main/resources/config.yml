@@ -1,0 +1,9 @@
+server:
+  id: "lobby"
+  name: "Lobby"
+  display-name: "<rainbow>Lobby</rainbow>"
+
+chatcolors:
+  default:
+    1: ffffff
+    2: ffffff

@@ -1,0 +1,7 @@
+url: "jdbc:mysql://localhost:3306/database" # When using MariaDB, use the MariaDB driver
+username: "username"
+password: "password"
+
+cachePrepStmts: true
+prepStmtCacheSize: 250
+prepStmtCacheSqlLimit: 2048

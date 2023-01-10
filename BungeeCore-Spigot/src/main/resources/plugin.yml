@@ -1,5 +1,6 @@
 main: com.jeff_media.bungeecore.spigot.BungeeCoreSpigot
 version: ${project.version}
 name: SIMPBungeeCore-Spigot
+api-version: 1.13
 softdepend:
   - PlaceholderAPI
