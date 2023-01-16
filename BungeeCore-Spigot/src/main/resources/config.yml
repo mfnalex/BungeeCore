@@ -2,8 +2,24 @@ server:
   id: "lobby"
   name: "Lobby"
   display-name: "<rainbow>Lobby</rainbow>"
+  color: "#E84A5F" #Find it on the servers name in tab config.yml (on proxy)
 
 chatcolors:
   default:
-    1: ffffff
-    2: ffffff
+    1: "#ffffff"
+    2: "#ffffff"
+
+format:
+  gradient: "<%server_color%>%server_name% <reset><gradient:%color_1%:%color_2%>%nickname% <white>» <reset>%msg%"
+  nickname-placeholder: "%cmi_user_cleannickname%"
+  colors:
+    black: black
+    darkblue: dark_blue
+    dark_blue: dark_blue
+    purple: "#7b03fc"
+
+messages:
+  incorrect-color: "<red><bold>[<reset><red>!<bold>] That color is not valid!"
+  default:
+    join: "<green>[<bold>+</bold>] <reset><gradient:%color_1%:%color_2%>%nick%<green> has joined"
+    leave: "<red>[<bold>-</bold>] <reset><gradient:%color_1%:%color_2%>%nick%<red> has joined"

@@ -20,6 +20,7 @@ public class SimpCommand extends BaseCommand {
     public void reload(CommandSender sender) {
         TimeUtils.startTimings("reload");
         plugin.config().reload();
+        plugin.reloadConfig();
         long nanoSeconds = TimeUtils.endTimings("reload");
         sender.sendMessage("Reloaded in " + TimeUtils.formatNanoseconds(nanoSeconds));
     }

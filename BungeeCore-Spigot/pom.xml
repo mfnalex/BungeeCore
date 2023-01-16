@@ -63,7 +63,8 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
-                    <outputDirectory>C:\mctest\plugins</outputDirectory>
+                    <!--><outputDirectory>C:\mctest\plugins</outputDirectory> <-->
+                    <finalName>Bungeecord-Spigot</finalName>
                 </configuration>
             </plugin>
         </plugins>

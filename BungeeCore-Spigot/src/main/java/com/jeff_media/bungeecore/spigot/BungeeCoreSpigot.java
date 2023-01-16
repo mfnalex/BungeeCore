@@ -2,9 +2,13 @@ package com.jeff_media.bungeecore.spigot;
 
 import co.aikar.commands.PaperCommandManager;
 import com.jeff_media.bungeecore.spigot.command.ChatColorCommand;
+import com.jeff_media.bungeecore.spigot.command.MessagesCommand;
 import com.jeff_media.bungeecore.spigot.command.SimpCommand;
 import com.jeff_media.bungeecore.spigot.config.Config;
 import com.jeff_media.bungeecore.spigot.config.MySqlConfig;
+import com.jeff_media.bungeecore.spigot.data.MessageDataManager;
+import com.jeff_media.bungeecore.spigot.listeners.ChatListener;
+import com.jeff_media.bungeecore.spigot.listeners.MessagesListener;
 import com.jeff_media.jefflib.JeffLib;
 import com.jeff_media.jefflib.exceptions.NMSNotSupportedException;
 import com.zaxxer.hikari.HikariConfig;
@@ -15,13 +19,19 @@ import lombok.experimental.Accessors;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 @Accessors(fluent = true)
 public class BungeeCoreSpigot extends JavaPlugin {
@@ -49,6 +59,20 @@ public class BungeeCoreSpigot extends JavaPlugin {
 
     private final NamespacedKey chatColor1Key = new NamespacedKey(this, "chatcolor1");
     private final NamespacedKey chatColor2Key = new NamespacedKey(this, "chatcolor2");
+
+    @Getter
+    public final NamespacedKey joinMessageKey = new NamespacedKey(this, "joinmessage");
+    @Getter
+    public final NamespacedKey leaveMessageKey = new NamespacedKey(this, "leavemessage");
+
+    @Getter
+    private static final Pattern hexPattern = Pattern.compile("#[a-fA-F0-9]{6}");
+
+    @Getter
+    public MessageDataManager messageDataManager;
+
+    @Getter
+    private static Map<String, String> validNameValues = new HashMap<>();
 
     {
         HikariConfig hikariConfig = new HikariConfig();
@@ -82,14 +106,28 @@ public class BungeeCoreSpigot extends JavaPlugin {
         }
 
         registerCommands();
+        registerListeners();
 
+        ConfigurationSection colorSection = getConfig().getConfigurationSection("format.colors");
+        for (String key : colorSection.getKeys(false)) {
+            validNameValues().put(key, colorSection.getString(key));
+        }
+
+        this.messageDataManager = new MessageDataManager(this.getConfig(), this);
     }
 
     private void registerCommands() {
         PaperCommandManager acf = new PaperCommandManager(this);
         acf.registerCommand(new ChatColorCommand(this));
         acf.registerCommand(new SimpCommand(this));
+        acf.registerCommand(new MessagesCommand(this));
 
+    }
+
+    private void registerListeners() {
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.registerEvents(new ChatListener(this), this);
+        pluginManager.registerEvents(new MessagesListener(this), this);
     }
 
     private void registerPlaceholders() {
@@ -125,6 +163,14 @@ public class BungeeCoreSpigot extends JavaPlugin {
 
     public void setChatColor2(Player player, String color) {
         player.getPersistentDataContainer().set(chatColor2Key, PersistentDataType.STRING, color);
+    }
+
+    public void setJoinMessage(Player player, String message) {
+        player.getPersistentDataContainer().set(joinMessageKey, PersistentDataType.STRING, message);
+    }
+
+    public void setLeaveMessage(Player player, String message) {
+        player.getPersistentDataContainer().set(leaveMessageKey, PersistentDataType.STRING, message);
     }
 
 }
