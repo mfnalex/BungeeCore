@@ -15,8 +15,34 @@ format:
   colors:
     black: black
     darkblue: dark_blue
-    dark_blue: dark_blue
-    purple: "#7b03fc"
+    dark_blue: "#2000e6"
+    blue: "#0076cc"
+    darkpurple: dark_purple
+    dark_purple: "#330066"
+    purple: "#5900b3"
+    green: "#00FF00"
+    darkgreen: dark_green
+    dark_green: "#0A480F"
+    aqua: turqoise
+    darkaqua: dark_aqua
+    dark_aqua: "#017987"
+    turqoise: "#40e0d0"
+    red: "#FF0000"
+    darkred: dark_red
+    dark_red: "#4d0005"
+    gold: "#996e00"
+    orange: "#e67c00"
+    darkorange: dark_orange
+    dark_orange: "#804500"
+    grey: gray
+    gray: "#808080"
+    darkgrey: dark_grey
+    dark_grey: darkgray
+    darkgray: dark_gray
+    dark_gray: "#5A5A5A"
+    pink: "#e600b3"
+    darkpink: dark_pink
+    dark_pink: "#660062"
 
 messages:
   incorrect-color: "<red><bold>[<reset><red>!<bold>] That color is not valid!"
